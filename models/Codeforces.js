@@ -5,4 +5,6 @@ const codeforcesSchema=new mongoose.Schema({
     maxRating:String
 });
 
-export default codeforcesSchema;
+const codeforcesModel=mongoose.model('Codeforces',codeforcesSchema);
+
+export default codeforcesModel;

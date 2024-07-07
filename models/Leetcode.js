@@ -5,4 +5,6 @@ const leetcodeSchema=new mongoose.Schema({
     maxRating:String
 });
 
-export default leetcodeSchema;
+const leetcodeModel=mongoose.model('Leetcode',leetcodeSchema);
+
+export default leetcodeModel;

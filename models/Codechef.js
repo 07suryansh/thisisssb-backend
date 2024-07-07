@@ -5,4 +5,6 @@ const codechefSchema=new mongoose.Schema({
     maxRating:String
 });
 
-export default codechefSchema;
+const codechefModel=mongoose.model('Codechef',codechefSchema);
+
+export default codechefModel;
