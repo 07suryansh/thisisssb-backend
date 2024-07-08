@@ -4,7 +4,7 @@ const projectsSchema=new mongoose.Schema({
     title:String,
     websiteLink:String,
     githubLink:String,
-    imgUrl:String,
+    imageUrl:String,
     techs:[String],
     info:String
 });
