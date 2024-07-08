@@ -1,29 +1,28 @@
 import leetcodeModel from "../models/Leetcode.js";
+import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const getLeetcode = async (req, res) => {
   try {
     const ltData = await leetcodeModel.find();
-    res.status(201).json(ltData);
-  } catch (err) {
-    res.status(500).send("Server error");
-  }
-};
-
-export const setLeetcode = async (req, res) => {
-  try {
-    const newLtData = new leetcodeModel(req.body);
-    const ltData = await leetcodeModel.findOne();
-    if (!ltData) {
-      await newLtData.save();
-      return res.status(201).json(newLtData);
+    const response=await axios.get(process.env.LEETCODE_API);
+    const data=response.rating;
+    if(!ltData){
+      const ltData=new leetcodeModel({
+        maxRating:data,
+        currentRating:data,
+      });
+      await ltData.save();
     }
-    if (newLtData.maxRating > ltData.maxRating) {
-      ltData.maxRating = newLtData.maxRating;
+    if(data>ltData.maxRating){
+      ltData.maxRating=data;
     }
-    ltData.currentRating = newLtData.currentRating;
+    ltData.currentRating=data;
     await ltData.save();
     res.status(200).json(ltData);
   } catch (error) {
-    res.status(500).send("Invalid Data");
+    console.error("Error in getLeetcode:", error.message);
+    res.status(500).send("Server error");
   }
 };
