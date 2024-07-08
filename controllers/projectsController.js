@@ -18,16 +18,27 @@ export const getProjects = async (req, res) => {
 
 export const setProjects = async (req, res) => {
   try {
-    let { title, websiteLink, githubLink, imageUrl, techs, info } = req.body;
-    if (imageUrl && !imageUrl.includes("cloudinary.com")) {
-      const cloudinaryResponse = await cloudinary.uploader.upload(imageUrl);
-      imageUrl = cloudinaryResponse.secure_url;
+    const { title, websiteLink, githubLink, imageUrl, techs, info } = req.body;
+    let cloudinaryUrl=imageUrl;
+
+    if (imageUrl.includes('drive.google.com')) {
+      const fileIdMatch = imageUrl.match(/[-\w]{25,}/);
+      if (fileIdMatch) {
+        const fileId = fileIdMatch[0];
+        cloudinaryUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+      }
     }
+
+    if (!cloudinaryUrl.includes('cloudinary.com')) {
+      const cloudinaryResponse = await cloudinary.uploader.upload(cloudinaryUrl);
+      cloudinaryUrl = cloudinaryResponse.secure_url;
+    }
+    
     const newPrData = new projectsModel({
       title,
       websiteLink,
       githubLink,
-      imageUrl,
+      imageUrl:cloudinaryUrl,
       techs,
       info,
     });
