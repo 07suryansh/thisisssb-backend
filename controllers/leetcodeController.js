@@ -5,15 +5,15 @@ dotenv.config();
 
 export const getLeetcode = async (req, res) => {
   try {
-    const ltData = await leetcodeModel.find();
+    const ltData = await leetcodeModel.findOne();
     const response=await axios.get(process.env.LEETCODE_API);
-    const data=response.rating;
+    const data=response.data.rating;
     if(!ltData){
-      const ltData=new leetcodeModel({
+      const newLtData=new leetcodeModel({
         maxRating:data,
         currentRating:data,
       });
-      await ltData.save();
+      await newLtData.save();
     }
     if(data>ltData.maxRating){
       ltData.maxRating=data;

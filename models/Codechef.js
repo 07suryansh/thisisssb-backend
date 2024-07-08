@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const codechefSchema=new mongoose.Schema({
-    currentRating:String,
-    maxRating:String
+    currentRating:Number,
+    maxRating:Number
 });
 
 const codechefModel=mongoose.model('Codechef',codechefSchema);

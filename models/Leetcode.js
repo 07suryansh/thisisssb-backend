@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const leetcodeSchema=new mongoose.Schema({
-    currentRating:String,
-    maxRating:String
+    currentRating:Number,
+    maxRating:Number
 });
 
 const leetcodeModel=mongoose.model('Leetcode',leetcodeSchema);

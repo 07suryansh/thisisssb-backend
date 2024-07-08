@@ -5,9 +5,9 @@ dotenv.config();
 
 export const getCodechef = async (req, res) => {
   try {
-    const ccData = await codechefModel.find();
+    const ccData = await codechefModel.findOne();
     const response=await axios.get(process.env.CODECHEF_API);
-    const data=response.rating;
+    const data=response.data.rating;
     if(!ccData){
       const newCcData=new codechefModel({
         maxRating: data,
